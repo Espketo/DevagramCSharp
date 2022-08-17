@@ -17,5 +17,10 @@ namespace DevagramCSharp.Repository.Impl
             _context.Add(usuario);
             _context.SaveChanges();
         }
+
+        public bool VerificarEmail(string email)
+        {
+            return _context.Usuarios.Any(u => u.Email == email.ToLower());
+        }
     }
 }

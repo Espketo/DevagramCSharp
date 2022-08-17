@@ -76,7 +76,22 @@ namespace DevagramCSharp.Controllers
                         });
                     }
 
-                    _usuarioRepository.Salvar(usuario);
+                    usuario.Senha = Utils.MD5Utils.GerarHashMD5(usuario.Senha);
+                    usuario.Email = usuario.Email.ToLower();
+
+                    if (_usuarioRepository.VerificarEmail(usuario.Email))
+                    {
+                        _usuarioRepository.Salvar(usuario);
+
+                    }
+                    else
+                    {
+                        return BadRequest(new ErrorRespostaDto()
+                        {
+                            Status = StatusCodes.Status400BadRequest,
+                            Descricao = "Usuário já está cadastrado!"
+                        });
+                    }
                 }
 
                 return Ok(usuario);

@@ -6,6 +6,6 @@ namespace DevagramCSharp.Repository
     {
         public void Salvar(Usuario usuario);
 
-
+        public bool VerificarEmail(string email);
     }
 }
