@@ -8,6 +8,6 @@ namespace DevagramCSharp.Models
         {
         }
 
-
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }
