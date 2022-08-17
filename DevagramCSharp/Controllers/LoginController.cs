@@ -48,7 +48,7 @@ namespace DevagramCSharp.Controllers
                     }
                     else
                     {
-                        return BadRequest(new ErroRespostaDto()
+                        return BadRequest(new ErrorRespostaDto()
                         {
                             Descricao = "Email ou Senha inválido!",
                             Status = StatusCodes.Status400BadRequest
@@ -57,7 +57,7 @@ namespace DevagramCSharp.Controllers
                 }
                 else
                 {
-                    return BadRequest(new ErroRespostaDto()
+                    return BadRequest(new ErrorRespostaDto()
                     {
                         Descricao = "Usuário não preencheu os campos de login corretamente",
                         Status = StatusCodes.Status400BadRequest
@@ -67,7 +67,7 @@ namespace DevagramCSharp.Controllers
             catch(Exception ex)
             {
                 _logger.LogError("Ocorreu um erro no login: " + ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErroRespostaDto()
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorRespostaDto()
                 {
                     Descricao = "Ocorreu um erro ao fazer o login",
                     Status = StatusCodes.Status500InternalServerError
