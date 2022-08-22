@@ -10,14 +10,14 @@ namespace DevagramCSharp.Utils
             MD5 md5hash = MD5.Create();
             var bytes = md5hash.ComputeHash(Encoding.UTF8.GetBytes(texto));
 
-            StringBuilder stringbuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
 
             for (int i = 0; i < bytes.Length; i++)
             {
-                stringbuilder.Append(bytes[i]);
+                stringBuilder.Append(bytes[i]);
             }
 
-            return stringbuilder.ToString();
+            return stringBuilder.ToString();
         }
     }
 }

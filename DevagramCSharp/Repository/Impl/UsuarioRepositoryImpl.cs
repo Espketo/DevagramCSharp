@@ -7,9 +7,25 @@ namespace DevagramCSharp.Repository.Impl
 
         private readonly DevagramContext _context;
 
-        public UsuarioRepositoryImpl (DevagramContext context)
+        public UsuarioRepositoryImpl(DevagramContext context)
         {
             _context = context;
+        }
+
+        public void AtualizarUsuario(Usuario usuario)
+        {
+            _context.Update(usuario);
+            _context.SaveChanges();
+        }
+
+        public Usuario GetUsuarioPorId(int id)
+        {
+            return _context.Usuarios.FirstOrDefault(u => u.Id == id);
+        }
+
+        public Usuario GetUsuarioPorLoginSenha(string email, string senha)
+        {
+            return _context.Usuarios.FirstOrDefault(u => u.Email == email && u.Senha == senha);
         }
 
         public void Salvar(Usuario usuario)
@@ -20,7 +36,7 @@ namespace DevagramCSharp.Repository.Impl
 
         public bool VerificarEmail(string email)
         {
-            return _context.Usuarios.Any(u => u.Email == email.ToLower());
+            return _context.Usuarios.Any(u => u.Email == email);
         }
     }
 }

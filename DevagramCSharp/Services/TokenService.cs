@@ -8,10 +8,10 @@ namespace DevagramCSharp.Services
 {
     public class TokenService
     {
-        public static string CriarToken (Usuario usuario)
+        public static string CriarToken(Usuario usuario)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var chaveCriptografia = Encoding.ASCII.GetBytes(ChaveJwT.ChaveSecreta);
+            var chaveCriptografia = Encoding.ASCII.GetBytes(ChaveJWT.ChaveSecreta);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]

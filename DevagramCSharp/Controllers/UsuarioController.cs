@@ -1,6 +1,7 @@
 ﻿using DevagramCSharp.Dtos;
 using DevagramCSharp.Models;
 using DevagramCSharp.Repository;
+using DevagramCSharp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,32 +11,83 @@ namespace DevagramCSharp.Controllers
     [Route("api/[controller]")]
     public class UsuarioController : BaseController
     {
-        public readonly ILogger<UsuarioController> _logger;
-        public readonly IUsuarioRepository _usuarioRepository;
 
-        public UsuarioController(ILogger<UsuarioController> logger, IUsuarioRepository usuarioRepository)
+        public readonly ILogger<UsuarioController> _logger;
+
+        public UsuarioController(ILogger<UsuarioController> logger,
+            IUsuarioRepository usuarioRepository) : base(usuarioRepository)
         {
             _logger = logger;
-            _usuarioRepository = usuarioRepository;
         }
+
 
         [HttpGet]
         public IActionResult ObterUsuario()
         {
             try
             {
-                Usuario usuario = new Usuario()
-                {
-                    Email = "samuel@devaria.com.br",
-                    Nome = "Samuel",
-                    Id = 100
-                };
 
-                return Ok(usuario);
+                Usuario usuario = LerToken();
+
+                return Ok(new UsuarioRespostaDto
+                {
+                    Nome = usuario.Nome,
+                    Email = usuario.Email
+                });
+
             }
             catch (Exception e)
             {
-                _logger.LogError("Ocorreu um erro ao obter um usuráio");
+                _logger.LogError("Ocorreu um erro ao obter o usuário");
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorRespostaDto()
+                {
+                    Descricao = "Ocorreu o seguinte erro: " + e.Message,
+                    Status = StatusCodes.Status500InternalServerError
+                });
+            }
+        }
+
+        [HttpPut]
+        public IActionResult AtualizarUsuario([FromForm] UsuarioRequisicaoDto usuariodto)
+        {
+            try
+            {
+                Usuario usuario = LerToken();
+
+                if (usuariodto != null)
+                {
+                    var erros = new List<string>();
+
+                    if (string.IsNullOrEmpty(usuariodto.Nome) || string.IsNullOrWhiteSpace(usuariodto.Nome))
+                    {
+                        erros.Add("Nome inválido");
+                    }
+
+                    if (erros.Count > 0)
+                    {
+                        return BadRequest(new ErrorRespostaDto()
+                        {
+                            Status = StatusCodes.Status400BadRequest,
+                            Erros = erros
+                        });
+                    }
+                    else
+                    {
+                        CosmicService cosmicservice = new CosmicService();
+
+                        usuario.FotoPerfil = cosmicservice.EnviarImagem(new ImagemDto { Imagem = usuariodto.FotoPerfil, Nome = usuariodto.Nome.Replace(" ", "") });
+                        usuario.Nome = usuariodto.Nome;
+
+                        _usuarioRepository.AtualizarUsuario(usuario);
+                    }
+                }
+
+                return Ok("Usuário foi salvo com sucesso");
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Ocorreu um erro ao salvar o usuário");
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorRespostaDto()
                 {
                     Descricao = "Ocorreu o seguinte erro: " + e.Message,
@@ -45,26 +97,27 @@ namespace DevagramCSharp.Controllers
         }
 
         [HttpPost]
-        public IActionResult SalvarUsuario([FromBody] Usuario usuario)
+        [AllowAnonymous]
+        public IActionResult SalvarUsuario([FromForm] UsuarioRequisicaoDto usuariodto)
         {
             try
             {
 
-                if (usuario != null)
+                if (usuariodto != null)
                 {
                     var erros = new List<string>();
 
-                    if (string.IsNullOrEmpty(usuario.Nome) || string.IsNullOrWhiteSpace(usuario.Nome))
+                    if (string.IsNullOrEmpty(usuariodto.Nome) || string.IsNullOrWhiteSpace(usuariodto.Nome))
                     {
                         erros.Add("Nome inválido");
                     }
-                    if (string.IsNullOrEmpty(usuario.Email) || string.IsNullOrWhiteSpace(usuario.Email) || !usuario.Email.Contains("@"))
+                    if (string.IsNullOrEmpty(usuariodto.Email) || string.IsNullOrWhiteSpace(usuariodto.Email) || !usuariodto.Email.Contains("@"))
                     {
                         erros.Add("E-mail inválido");
                     }
-                    if (string.IsNullOrEmpty(usuario.Senha) || string.IsNullOrWhiteSpace(usuario.Senha))
+                    if (string.IsNullOrEmpty(usuariodto.Senha) || string.IsNullOrWhiteSpace(usuariodto.Senha))
                     {
-                        erros.Add("Senha inválida");
+                        erros.Add("Senha inválido");
                     }
 
                     if (erros.Count > 0)
@@ -76,13 +129,24 @@ namespace DevagramCSharp.Controllers
                         });
                     }
 
+                    CosmicService cosmicservice = new CosmicService();
+
+                    Usuario usuario = new Usuario()
+                    {
+                        Email = usuariodto.Email,
+                        Senha = usuariodto.Senha,
+                        Nome = usuariodto.Nome,
+                        FotoPerfil = cosmicservice.EnviarImagem(new ImagemDto { Imagem = usuariodto.FotoPerfil, Nome = usuariodto.Nome.Replace(" ", "") })
+                    };
+
+
+
                     usuario.Senha = Utils.MD5Utils.GerarHashMD5(usuario.Senha);
                     usuario.Email = usuario.Email.ToLower();
 
-                    if (_usuarioRepository.VerificarEmail(usuario.Email))
+                    if (!_usuarioRepository.VerificarEmail(usuario.Email))
                     {
                         _usuarioRepository.Salvar(usuario);
-
                     }
                     else
                     {
@@ -92,13 +156,14 @@ namespace DevagramCSharp.Controllers
                             Descricao = "Usuário já está cadastrado!"
                         });
                     }
+
                 }
 
-                return Ok(usuario);
+                return Ok("Usuário foi salvo com sucesso");
             }
             catch (Exception e)
             {
-                _logger.LogError("Ocorreu um erro ao salvar o usuráio");
+                _logger.LogError("Ocorreu um erro ao salvar o usuário");
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorRespostaDto()
                 {
                     Descricao = "Ocorreu o seguinte erro: " + e.Message,
@@ -107,4 +172,5 @@ namespace DevagramCSharp.Controllers
             }
         }
     }
+
 }
