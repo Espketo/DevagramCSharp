@@ -75,7 +75,7 @@ namespace DevagramCSharp.Controllers
                     {
                         CosmicService cosmicservice = new CosmicService();
 
-                        usuario.FotoPerfil = cosmicservice.EnviarImagem(new ImagemDto { Imagem = usuariodto.FotoPerfil, Nome = usuariodto.Nome.Replace(" ", "") });
+                        usuario.FotoPerfil = cosmicservice.EnviarImagen(new ImagemDto { Imagem = usuariodto.FotoPerfil, Nome = usuariodto.Nome.Replace(" ", "") });
                         usuario.Nome = usuariodto.Nome;
 
                         _usuarioRepository.AtualizarUsuario(usuario);
@@ -136,7 +136,7 @@ namespace DevagramCSharp.Controllers
                         Email = usuariodto.Email,
                         Senha = usuariodto.Senha,
                         Nome = usuariodto.Nome,
-                        FotoPerfil = cosmicservice.EnviarImagem(new ImagemDto { Imagem = usuariodto.FotoPerfil, Nome = usuariodto.Nome.Replace(" ", "") })
+                        FotoPerfil = cosmicservice.EnviarImagen(new ImagemDto { Imagem = usuariodto.FotoPerfil, Nome = usuariodto.Nome.Replace(" ", "") })
                     };
 
 
