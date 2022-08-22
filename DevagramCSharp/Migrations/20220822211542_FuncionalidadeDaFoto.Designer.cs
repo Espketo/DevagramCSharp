@@ -3,6 +3,7 @@ using DevagramCSharp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevagramCSharp.Migrations
 {
     [DbContext(typeof(DevagramContext))]
-    partial class DevagramContextModelSnapshot : ModelSnapshot
+    [Migration("20220822211542_FuncionalidadeDaFoto")]
+    partial class FuncionalidadeDaFoto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
