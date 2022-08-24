@@ -39,7 +39,7 @@ namespace DevagramCSharp.Repository.Impl
         public Seguidor GetSeguidor (int idseguidor, int idseguido)
         {
             return _context.Seguidores.FirstOrDefault(s => s.IdSeguidor == idseguidor && 
-                                                           s.idSeguido == idseguido);
+                                                           s.IdSeguido == idseguido);
         }
     }
 }

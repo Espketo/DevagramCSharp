@@ -2,7 +2,7 @@
 
 namespace DevagramCSharp.Repository
 {
-    public class ISeguidorRepository
+    public interface ISeguidorRepository
     {
         public bool Seguir(Seguidor seguidor);
         public bool Desseguir(Seguidor seguidor);

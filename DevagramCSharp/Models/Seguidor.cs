@@ -4,6 +4,8 @@ namespace DevagramCSharp.Models
 {
     public class Seguidor
     {
+        internal int IdSeguido;
+
         public int Id { get; set; }
         public int? IdUsuarioSeguidor { get; set; }
         public int? IdUsuarioSeguido { get; set; }
@@ -13,5 +15,6 @@ namespace DevagramCSharp.Models
 
         [ForeignKey("IdUsuarioSeguido")]
         public virtual Usuario UsuarioSeguido { get; private set; }
+        public int IdSeguidor { get; internal set; }
     }
 }
