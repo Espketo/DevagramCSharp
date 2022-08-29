@@ -5,10 +5,12 @@ namespace DevagramCSharp.Repository.Impl
     public class SeguidorRepositoryImpl : ISeguidorRepository
     {
         private readonly DevagramContext _context;
-        public SeguidorRepositoryImpl (DevagramContext context)
+
+        public SeguidorRepositoryImpl(DevagramContext context)
         {
             _context = context;
         }
+
         public bool Seguir(Seguidor seguidor)
         {
             try
@@ -36,10 +38,11 @@ namespace DevagramCSharp.Repository.Impl
                 return false;
             }
         }
-        public Seguidor GetSeguidor (int idseguidor, int idseguido)
+
+        public Seguidor GetSeguidor(int idseguidor, int idseguido)
         {
-            return _context.Seguidores.FirstOrDefault(s => s.IdSeguidor == idseguidor && 
-                                                           s.IdSeguido == idseguido);
+            return _context.Seguidores.FirstOrDefault(s => s.IdUsuarioSeguidor == idseguidor &&
+                                                           s.IdUsuarioSeguido == idseguido);
         }
     }
 }

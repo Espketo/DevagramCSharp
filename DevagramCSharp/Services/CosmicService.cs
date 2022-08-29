@@ -24,7 +24,7 @@ namespace DevagramCSharp.Services
             request.Content = conteudo;
             var retornoreq = client.PostAsync("https://upload.cosmicjs.com/v2/buckets/devagram-devagrambucket/media", request.Content).Result;
 
-            var urlretorno = retornoreq.Content.ReadFromJsonAsync<CosmicRepostaDto>();
+            var urlretorno = retornoreq.Content.ReadFromJsonAsync<CosmicRespostaDto>();
 
             return urlretorno.Result.media.url;
         }
