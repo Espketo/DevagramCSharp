@@ -29,14 +29,12 @@ namespace DevagramCSharp.Migrations
                         name: "FK_Comentarios_Publicacoes_IdPublicacao",
                         column: x => x.IdPublicacao,
                         principalTable: "Publicacoes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comentarios_Usuarios_IdUsuario",
                         column: x => x.IdUsuario,
                         principalTable: "Usuarios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -55,14 +53,12 @@ namespace DevagramCSharp.Migrations
                         name: "FK_Curtidas_Publicacoes_IdPublicacao",
                         column: x => x.IdPublicacao,
                         principalTable: "Publicacoes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Curtidas_Usuarios_IdUsuario",
                         column: x => x.IdUsuario,
                         principalTable: "Usuarios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

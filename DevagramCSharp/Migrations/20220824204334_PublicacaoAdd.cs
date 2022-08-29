@@ -47,8 +47,7 @@ namespace DevagramCSharp.Migrations
                         name: "FK_Publicacoes_Usuarios_IdUsuario",
                         column: x => x.IdUsuario,
                         principalTable: "Usuarios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -96,8 +95,7 @@ namespace DevagramCSharp.Migrations
                 table: "Seguidores",
                 column: "IdUsuarioSeguidor",
                 principalTable: "Usuarios",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "Id");
         }
     }
 }

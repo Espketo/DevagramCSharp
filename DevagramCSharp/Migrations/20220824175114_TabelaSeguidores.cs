@@ -30,8 +30,7 @@ namespace DevagramCSharp.Migrations
                         name: "FK_Seguidores_Usuarios_IdUsuarioSeguidor",
                         column: x => x.IdUsuarioSeguidor,
                         principalTable: "Usuarios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
