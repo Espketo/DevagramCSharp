@@ -5,24 +5,26 @@ namespace DevagramCSharp.Services
 {
     public class CosmicService
     {
-        public string EnviarImagen(ImagemDto imagemdto)
+        public string EnviarImagem(ImagemDto imagemdto)
         {
-            Stream imagem = imagemdto.Imagem.OpenReadStream();
+            Stream imagem;
+
+            imagem = imagemdto.Imagem.OpenReadStream();
 
             var client = new HttpClient();
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eRUjtK6pRgHKiTFDQjS5fWb1GCqX8biUFI8YXEkucOAqqGahUy");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "JWiOrqA3PN1VsvS6TwzREkp0PZvIV6TvUkqHd9Ds3BAHLMik6E");
 
             var request = new HttpRequestMessage(HttpMethod.Post, "file");
             var conteudo = new MultipartFormDataContent
             {
-                {new StreamContent(imagem), "media", imagemdto.Nome }
+                { new StreamContent(imagem), "media", imagemdto.Nome }
             };
 
             request.Content = conteudo;
-            var retornoreq = client.PostAsync("https://upload.cosmicjs.com/v2/buckets/devaria-projetos-devagram/media", request.Content).Result;
+            var retornoreq = client.PostAsync("https://upload.cosmicjs.com/v2/buckets/devagram-devagrambucket/media", request.Content).Result;
 
-            var urlretorno = retornoreq.Content.ReadFromJsonAsync<CosmicRespostaDto>();
+            var urlretorno = retornoreq.Content.ReadFromJsonAsync<CosmicRepostaDto>();
 
             return urlretorno.Result.media.url;
         }
